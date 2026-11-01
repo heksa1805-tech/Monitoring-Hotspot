@@ -1,33 +1,25 @@
 import requests
 import pandas as pd
 import folium
-
-# 1. Konfigurasi API NASA FIRMS
-MAP_KEY = "MASUKKAN_MAP_KEY_ANDA_DI_SINI"
+MAP_KEY = "1dce4faf293eea7e65cefa8ffcea7ca1"
 SATELLITE = "VIIRS_SNPP" # Pilihan: MODIS, VIIRS_SNPP, VIIRS_NOAA20, atau LANDSAT
 COUNTRY_CODE = "IDN"     # IDN untuk Indonesia
 DAYS = "1"               # Jumlah hari ke belakang (1-10)
 
-# 2. Ambil data Hotspot lewat API REST NASA FIRMS
 url = f"https://nasa.gov{MAP_KEY}/{SATELLITE}/{COUNTRY_CODE}/{DAYS}"
 response = requests.get(url)
 
 if response.status_code == 200:
-    # Simpan data ke dalam DataFrame Pandas
-    with open("hotspot_data.csv", "w") as f:
+        with open("hotspot_data.csv", "w") as f:
         f.write(response.text)
         
     df = pd.read_csv("hotspot_data.csv")
     print(f"Berhasil mengambil {len(df)} titik hotspot.")
     
-    # 3. Membuat Peta Monitoring Interaktif dengan Folium
-    # Set titik tengah peta (Contoh di tengah Indonesia)
-    map_hotspot = folium.Map(location=[-0.7893, 113.9213], zoom_start=5)
+        map_hotspot = folium.Map(location=[-0.7893, 113.9213], zoom_start=5)
     
-    # Looping data untuk dimasukkan ke peta
-    for index, row in df.iterrows():
-        # Memisahkan warna berdasarkan tingkat keyakinan (confidence)
-        # VIIRS menggunakan 'n' (nominal), 'h' (high), 'l' (low)
+        for index, row in df.iterrows():
+            # VIIRS menggunakan 'n' (nominal), 'h' (high), 'l' (low)
         conf = row.get('confidence', 'n')
         color = 'red' if conf == 'h' else ('orange' if conf == 'n' else 'yellow')
         
@@ -40,8 +32,7 @@ if response.status_code == 200:
             fill_color=color
         ).add_to(map_hotspot)
         
-    # Simpan menjadi file HTML yang bisa dibuka di browser
-    map_hotspot.save("monitoring_hotspot.html")
+       map_hotspot.save("monitoring_hotspot.html")
     print("Peta monitoring berhasil dibuat! Buka file 'monitoring_hotspot.html'")
 else:
     print("Gagal mengambil data. Periksa kembali MAP_KEY atau parameter Anda.")

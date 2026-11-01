@@ -1,0 +1,33 @@
+name: Update NASA FIRMS Hotspots
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */3 * * *" # setiap 3 jam, menit 17 UTC
+permissions:
+  contents: write
+concurrency:
+  group: firms-hotspot-update
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install shapely
+      - name: Fetch NASA FIRMS and clip to PBPH
+        env:
+          FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
+        run: python scripts/fetch_firms.py
+      - name: Commit updated hotspot data
+        run: |
+          git config user.name "TMK Hotspot Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/hotspots_latest.csv data/hotspots_latest.geojson data/metadata.json
+          git diff --cached --quiet || git commit -m "Update NASA FIRMS hotspots"
+          git push

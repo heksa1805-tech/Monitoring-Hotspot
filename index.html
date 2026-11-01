@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Monitoring Hotspot Karhutla | PT Telaga Mas Kalimantan</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header><div><div class="eyebrow">PT TELAGA MAS KALIMANTAN</div><h1>Monitoring Hotspot Karhutla</h1><p>NASA FIRMS · Area PBPH · Pembaruan otomatis setiap 3 jam</p></div><span id="status" class="status">Memuat data…</span></header>
+<main>
+  <section class="stats">
+    <article><small>Total hotspot dalam PBPH</small><strong id="total">—</strong></article>
+    <article><small>Deteksi 24 jam terakhir</small><strong id="last24">—</strong></article>
+    <article><small>Confidence nominal/tinggi</small><strong id="conf">—</strong></article>
+    <article><small>Total FRP (MW)</small><strong id="frp">—</strong></article>
+  </section>
+  <section class="panel"><div class="panelhead"><h2>Peta Sebaran Hotspot</h2><div class="filters"><select id="sensor"><option value="all">Semua sensor</option><option>VIIRS</option><option>MODIS</option></select><select id="confidence"><option value="all">Semua confidence</option><option value="high">High</option><option value="nominal">Nominal + High</option><option value="low">Low</option></select></div></div><div id="map"></div><p class="hint">Titik hotspot adalah indikasi anomali termal satelit, bukan konfirmasi kebakaran. Lakukan verifikasi lapangan.</p></section>
+  <section class="panel"><div class="panelhead"><h2>Daftar Deteksi Terbaru</h2><a href="data/hotspots_latest.csv">Unduh CSV</a></div><div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Waktu UTC</th><th>Sensor</th><th>Latitude</th><th>Longitude</th><th>Confidence</th><th>FRP MW</th></tr></thead><tbody id="rows"><tr><td colspan="7">Memuat…</td></tr></tbody></table></div></section>
+  <footer>Data: NASA FIRMS · Peta: OpenStreetMap · Dashboard internal TMK</footer>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="js/app.js"></script>
+</body></html>

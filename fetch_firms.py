@@ -4,11 +4,11 @@ from pathlib import Path
 from shapely.geometry import shape, Point
 
 ROOT=Path(__file__).resolve().parents[1]
-BOUNDARY=ROOT/"data/batas_pbph.geojson"
+BOUNDARY=ROOT/"data/pt_tmk.geojson"
 OUT=ROOT/"data"
 KEY=os.environ.get("FIRMS_MAP_KEY")
 if not KEY: raise SystemExit("FIRMS_MAP_KEY belum diatur pada GitHub Secrets")
-if not BOUNDARY.exists(): raise SystemExit("Tambahkan data/batas_pbph.geojson (polygon batas PBPH TMK)")
+if not BOUNDARY.exists(): raise SystemExit("Tambahkan data/pt_tmk.geojson (polygon batas PBPH TMK)")
 boundary_json=json.loads(BOUNDARY.read_text(encoding="utf-8"))
 geoms=[]
 for f in boundary_json.get("features",[]):
